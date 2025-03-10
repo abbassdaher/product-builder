@@ -28,8 +28,15 @@ const ProductCard = ({}: IProps) => {
       </div>
 
       <div className="flex flex-row justify-between space-x-2">
-        <Button classname={"bg-amber-500"}>edit</Button>
-        <Button classname={"bg-red-400 w-full"}>delet</Button>
+        <Button
+          classname={"bg-amber-500"}
+          onClick={() => {
+            console.log("clicked");
+          }}
+        >
+          edit
+        </Button>
+        <Button classname={"bg-red-400 w-full"}>delte</Button>
       </div>
     </div>
   );
