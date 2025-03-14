@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import Image from "./Image";
 import Button from "./ui/Button";
 import { Iproduct } from "./interfaces";
@@ -8,20 +7,24 @@ interface IProps {
 }
 
 const ProductCard = ({ product }: IProps) => {
-  const rederColor = product.color.map(color => color)
-  console.log(rederColor);
+  const getColor = product.color.map((color) => {
+    return color;
+  });
+  console.log(getColor);
+  const renderColor = getColor.map((c) => (
+    <span className={`bg-[${c}] rounded-full w-5 h-5 me-1 cursor-pointer`} />
+  ));
+  console.log(renderColor);
+
   return (
-    <div className="border-1 p-2 m-1 rounded-lg flex flex-col ">
-      {/* {console.log(color.map((c) => {
-            `<span className="bg-${c}-800 rounded-full w-5 h-5 me-1 cursor-pointer"/>`;
-          }))} */}
+    <div className=" border-1 p-2 my-1  rounded-lg flex flex-col max-w-sm  md:mx-1 ">
       <Image
         imageUrl={product.imageUrl}
         alt="product image"
-        className="rounded-sm h-40"
+        className="rounded-sm h-60"
       />
       <h2 className="">{product.title}</h2>
-      <p className="flex-3">{product.description}</p>
+      <p className="truncate">{product.description}</p>
       <span className="flex justify-between items-center ">
         <div>{product.price}</div>
         <Image
@@ -32,17 +35,20 @@ const ProductCard = ({ product }: IProps) => {
       </span>
 
       <div className="flex m-1 ">
-        <span className="bg-blue-800 rounded-full w-5 h-5 me-1 cursor-pointer" />
+        {/* <span className={`bg-${c}-800 rounded-full w-5 h-5 me-1 cursor-pointer`}/> */}
+        {renderColor}
+        {/* <span className="bg-blue-800 rounded-full w-5 h-5 me-1 cursor-pointer" />
         <span className="bg-amber-600 rounded-full w-5 h-5 me-1 cursor-pointer" />
-        <span className="bg-amber-700 rounded-full w-5 h-5 cursor-pointer" />
+        <span className="bg-amber-700 rounded-full w-5 h-5 cursor-pointer" /> */}
       </div>
 
       <div className="flex flex-row justify-between space-x-2 ">
         <Button
           classname={"bg-amber-500"}
-          onClick={() => {
-            console.log("clicked");
-          }}
+          //   onClick={() => {
+          //     console.log("clicked");
+          //   }
+          // }
         >
           edit
         </Button>
