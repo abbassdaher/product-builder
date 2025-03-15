@@ -10,7 +10,7 @@ const Button = ({ children, classname,onclick, ...rest }: IProps) => {
   return (
     <button 
       {...rest}
-      className={`${classname} w-full  cursor-pointer rounded text-white font-semibold`}
+      className={`${classname}   cursor-pointer rounded text-white font-semibold`}
       onClick={onclick}
      >
       {children}

@@ -40,7 +40,7 @@ const ProductCard = ({ product }: IProps) => {
 
       <div className="flex flex-row justify-between space-x-2 ">
         <Button
-          classname={"bg-amber-500"}
+          classname={"bg-amber-500 w-full"}
           //   onClick={() => {
           //     console.log("clicked");
           //   }
