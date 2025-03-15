@@ -3,14 +3,16 @@ import { ReactNode, } from "react";
 interface IProps {
   children: ReactNode;
   classname?: string;
+  onclick?:()=>void;
 }
 
-const Button = ({ children, classname, ...rest }: IProps) => {
+const Button = ({ children, classname,onclick, ...rest }: IProps) => {
   return (
-    <button
+    <button 
       {...rest}
       className={`${classname} w-full  cursor-pointer rounded text-white font-semibold`}
-    >
+      onClick={onclick}
+     >
       {children}
     </button>
   );
