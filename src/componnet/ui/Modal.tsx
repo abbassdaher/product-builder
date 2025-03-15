@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, ReactNode  } from "react";
+import { Fragment, ReactNode } from "react";
 
 interface Iprops {
   isOpen: boolean;
@@ -16,7 +16,6 @@ export default function Modal({
   children,
   closeModal,
 }: Iprops) {
-
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>

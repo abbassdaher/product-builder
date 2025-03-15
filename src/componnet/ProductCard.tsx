@@ -7,14 +7,10 @@ interface IProps {
 }
 
 const ProductCard = ({ product }: IProps) => {
-  const getColor = product.color.map((color) => {
-    return color;
-  });
-  console.log(getColor);
-  const renderColor = getColor.map((c) => (
+  const renderColor = product.color.map((c) => (
     <span className={`bg-[${c}] rounded-full w-5 h-5 me-1 cursor-pointer`} />
   ));
-  console.log(renderColor);
+  // console.log(renderColor);
 
   return (
     <div className=" border-1 p-2 my-1  rounded-lg flex flex-col max-w-sm  md:mx-1 ">

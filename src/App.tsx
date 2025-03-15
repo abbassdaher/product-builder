@@ -8,7 +8,7 @@ import Button from "./componnet/ui/Button";
 
 function App() {
   const renderProduct = productList.map((p) => <ProductCard product={p} />);
-  let [isOpen, setIsOpen] = useState(true);
+  let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
