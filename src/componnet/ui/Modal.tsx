@@ -16,9 +16,11 @@ export default function Modal({
   children,
   closeModal,
 }: Iprops) {
+  
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
+        
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
@@ -63,6 +65,7 @@ export default function Modal({
               </Transition.Child>
             </div>
           </div>
+          
         </Dialog>
       </Transition>
     </>
