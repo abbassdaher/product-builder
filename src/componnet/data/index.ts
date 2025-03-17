@@ -102,9 +102,9 @@ export const FormInputProduts: IFormInput[] = [
     type: "text",
   },
   {
-    id: "image",
+    id: "imageUrl",
     lable: "product image URL",
-    name: "image url",
+    name: "imageUrl",
     type: "text",
   },
   {

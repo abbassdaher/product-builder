@@ -18,9 +18,13 @@ function App() {
     setIsOpen(true);
   }
   const renderFormProduts = FormInputProduts.map((i) => (
-    <div className="mb-1 flex  flex-col">
-      <label className="text-black">{i.lable}:</label>
-      <input type="`${i.type}`" className="border-1 border-b-gray-500" />
+    <div className="mb-1 flex  flex-col ">
+      <label htmlFor={i.name} className="text-black">{i.lable}:</label>
+      <input
+        type="`${i.type}`"
+        className="border-1 text-gray-300"
+        id={i.id}
+      />
     </div>
   ));
   return (
