@@ -5,10 +5,18 @@ import ProductCard from "./componnet/ProductCard";
 import Modal from "./componnet/ui/Modal";
 import { useState } from "react";
 import Button from "./componnet/ui/Button";
+import { IFormInput } from "./componnet/interfaces";
 
 function App() {
   const renderProduct = productList.map((p) => <ProductCard product={p} />);
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [product, setproduct] = useState({
+  title:"",
+  description: "",
+  imageUrl: "",
+  price: "",
+  });
+  
 
   function closeModal() {
     setIsOpen(false);
@@ -17,13 +25,20 @@ function App() {
   function openModal() {
     setIsOpen(true);
   }
+  function onChangeHandller(e) {
+    setproduct({ ...product, [e.target.id]: e.target.value });
+  }
+  console.log(product);
   const renderFormProduts = FormInputProduts.map((i) => (
     <div className="mb-1 flex  flex-col ">
-      <label htmlFor={i.name} className="text-black">{i.lable}:</label>
+      <label htmlFor={i.name} className="text-black">
+        {i.lable}:
+      </label>
       <input
         type="`${i.type}`"
-        className="border-1 text-gray-300"
+        className="border-1 text-black border-gray-300 rounded-sm"
         id={i.id}
+        onChange={onChangeHandller}
       />
     </div>
   ));

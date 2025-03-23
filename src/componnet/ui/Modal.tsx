@@ -16,11 +16,9 @@ export default function Modal({
   children,
   closeModal,
 }: Iprops) {
-  
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
@@ -59,13 +57,12 @@ export default function Modal({
                       <p className="text-sm text-gray-500">{description}</p>
                     </div>
                   )}
-
+                  {/* children get from the app component */}
                   <div className="mt-4">{children}</div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
           </div>
-          
         </Dialog>
       </Transition>
     </>
