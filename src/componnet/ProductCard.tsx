@@ -32,7 +32,7 @@ const ProductCard = ({ product }: IProps) => {
 
       <div className="flex m-1 ">
         {/* <span className={`bg-${c}-800 rounded-full w-5 h-5 me-1 cursor-pointer`}/> */}
-        {renderColor}
+        { }
         {/* <span className="bg-blue-800 rounded-full w-5 h-5 me-1 cursor-pointer" />
         <span className="bg-amber-600 rounded-full w-5 h-5 me-1 cursor-pointer" />
         <span className="bg-amber-700 rounded-full w-5 h-5 cursor-pointer" /> */}

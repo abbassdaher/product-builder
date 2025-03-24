@@ -3,20 +3,24 @@ import "./App.css";
 import { FormInputProduts, productList } from "./componnet/data";
 import ProductCard from "./componnet/ProductCard";
 import Modal from "./componnet/ui/Modal";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Button from "./componnet/ui/Button";
-import { IFormInput } from "./componnet/interfaces";
+import { Iproduct } from "./componnet/interfaces";
 
 function App() {
   const renderProduct = productList.map((p) => <ProductCard product={p} />);
   const [isOpen, setIsOpen] = useState(false);
-  const [product, setproduct] = useState({
-  title:"",
-  description: "",
-  imageUrl: "",
-  price: "",
+  const [product, setproduct] = useState<Iproduct>({
+    title: "",
+    description: "",
+    imageUrl: "",
+    price: "",
+    color:[],
+    category: {
+      name: "",
+      imageUrl: "",
+    },
   });
-  
 
   function closeModal() {
     setIsOpen(false);
@@ -25,8 +29,9 @@ function App() {
   function openModal() {
     setIsOpen(true);
   }
-  function onChangeHandller(e) {
-    setproduct({ ...product, [e.target.id]: e.target.value });
+  function onChangeHandller(e: ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target;
+    setproduct({ ...product, [id]: value });
   }
   console.log(product);
   const renderFormProduts = FormInputProduts.map((i) => (
@@ -38,6 +43,7 @@ function App() {
         type="`${i.type}`"
         className="border-1 text-black border-gray-300 rounded-sm"
         id={i.id}
+        name={i.name}
         onChange={onChangeHandller}
       />
     </div>
