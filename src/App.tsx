@@ -3,7 +3,7 @@ import "./App.css";
 import { FormInputProduts, productList } from "./componnet/data";
 import ProductCard from "./componnet/ProductCard";
 import Modal from "./componnet/ui/Modal";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "./componnet/ui/Button";
 import { Iproduct } from "./componnet/interfaces";
 
@@ -15,7 +15,7 @@ function App() {
     description: "",
     imageUrl: "",
     price: "",
-    color:[],
+    color: [],
     category: {
       name: "",
       imageUrl: "",
@@ -33,7 +33,7 @@ function App() {
     const { id, value } = e.target;
     setproduct({ ...product, [id]: value });
   }
-  console.log(product);
+  // console.log(product);
   const renderFormProduts = FormInputProduts.map((i) => (
     <div className="mb-1 flex  flex-col ">
       <label htmlFor={i.name} className="text-black">
@@ -48,6 +48,11 @@ function App() {
       />
     </div>
   ));
+  function submitHandler(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault()
+    console.log(product)
+  }
+
   return (
     <Fragment>
       <div className=" m-2 flex justify-between items-center ">
@@ -63,21 +68,17 @@ function App() {
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
           {renderProduct}
         </div>
-        <Modal
-          isOpen={isOpen}
-          closeModal={closeModal}
-          title="Add a new product"
-        >
-          {renderFormProduts}
-          <Button
-            classname="bg-emerald-500 w-full"
-            onclick={() => {
-              closeModal();
-            }}
-          >
-            submit
-          </Button>
-        </Modal>
+        
+          <Modal
+            isOpen={isOpen}
+            closeModal={closeModal}
+            title="Add a new product"
+          ><form onSubmit={submitHandler}>
+            {renderFormProduts}
+            <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">submit</Button>
+            </form>
+          </Modal>
+        
       </main>
     </Fragment>
   );
