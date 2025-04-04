@@ -7,10 +7,17 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "./componnet/ui/Button";
 import { Iproduct } from "./componnet/interfaces";
 import { productValidations } from "./validation";
+import ValidationErrorMSG from "./componnet/ui/ValidationErrorMSG";
 
 function App() {
   const renderProduct = productList.map((p) => <ProductCard product={p} />);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [msgErrorValidation, setMsgErrorValidation] = useState({
+    title: "",
+    description: "",
+    imageUrl: "",
+    price: "",
+  });
   const [product, setproduct] = useState<Iproduct>({
     title: "",
     description: "",
@@ -22,7 +29,7 @@ function App() {
       imageUrl: "",
     },
   });
-
+  console.log("error:", msgErrorValidation);
   function closeModal() {
     setIsOpen(false);
   }
@@ -47,17 +54,30 @@ function App() {
         name={i.name}
         onChange={onChangeHandller}
       />
-      <label className="text-red-500 my-1" >error</label>
+      {msgErrorValidation[i.name] && (
+        <ValidationErrorMSG msg={msgErrorValidation[i.name]} />
+      )}
     </div>
   ));
   function submitHandler(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    const error = productValidations(product);
-    console.log(error);
+    const { title, description, imageUrl, price } = product;
+    const error = productValidations({
+      title,
+      description,
+      imageUrl,
+      price,
+    });
+
     const hasErrorMSG =
       Object.values(error).some((item) => item == "") &&
       Object.values(error).every((item) => item == "");
-    console.log(hasErrorMSG);
+    if (!hasErrorMSG) {
+      setMsgErrorValidation(error);
+      return;
+    }
+
+    console.log("send the product to server");
   }
 
   return (

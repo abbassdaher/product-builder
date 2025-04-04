@@ -1,4 +1,3 @@
-import { Input } from "postcss";
 import { IFormInput, Iproduct } from "../interfaces";
 
 export const productList: Iproduct[] = [
