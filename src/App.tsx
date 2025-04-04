@@ -40,6 +40,8 @@ function App() {
   function onChangeHandller(e: ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
     setproduct({ ...product, [id]: value });
+    // remove the error msg when verify the condition
+    setMsgErrorValidation(productValidations({ ...product, [id]: value }));
   }
   // console.log(product);
   const renderFormProduts = FormInputProduts.map((i) => (
