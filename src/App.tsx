@@ -6,6 +6,7 @@ import Modal from "./componnet/ui/Modal";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "./componnet/ui/Button";
 import { Iproduct } from "./componnet/interfaces";
+import { productValidations } from "./validation";
 
 function App() {
   const renderProduct = productList.map((p) => <ProductCard product={p} />);
@@ -46,11 +47,17 @@ function App() {
         name={i.name}
         onChange={onChangeHandller}
       />
+      <label className="text-red-500 my-1" >error</label>
     </div>
   ));
   function submitHandler(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault()
-    console.log(product)
+    event.preventDefault();
+    const error = productValidations(product);
+    console.log(error);
+    const hasErrorMSG =
+      Object.values(error).some((item) => item == "") &&
+      Object.values(error).every((item) => item == "");
+    console.log(hasErrorMSG);
   }
 
   return (
@@ -68,17 +75,19 @@ function App() {
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
           {renderProduct}
         </div>
-        
-          <Modal
-            isOpen={isOpen}
-            closeModal={closeModal}
-            title="Add a new product"
-          ><form onSubmit={submitHandler}>
+
+        <Modal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          title="Add a new product"
+        >
+          <form onSubmit={submitHandler}>
             {renderFormProduts}
-            <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">submit</Button>
-            </form>
-          </Modal>
-        
+            <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">
+              submit
+            </Button>
+          </form>
+        </Modal>
       </main>
     </Fragment>
   );
