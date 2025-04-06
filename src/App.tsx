@@ -12,6 +12,7 @@ import Button from "./componnet/ui/Button";
 import { Iproduct } from "./componnet/interfaces";
 import { productValidations } from "./validation";
 import ValidationErrorMSG from "./componnet/ui/ValidationErrorMSG";
+import ColorsProducts from "./componnet/ui/ColorsProducts";
 
 function App() {
   const renderProduct = productList.map((p) => <ProductCard product={p} />);
@@ -67,11 +68,19 @@ function App() {
     </div>
   ));
   // render for color
-  const renderColorOFProduct = ColorInputProduct.map((i) => (
-    // add color in style  becouse tailwind not seeing the colors tailwind is runtime not build time
-    <span
-      className={` rounded-full w-5 h-5 me-1 cursor-pointer`}
-      style={{ backgroundColor: i }}
+  const renderColorOFProduct = ColorInputProduct.map((colors) => (
+    <ColorsProducts
+      color={colors}
+      onClick={() => {
+        // product.color.push(colors)
+        const colorIsExist = product.color.every((i) => i !== colors);
+        if (colorIsExist) {
+          product.color.push(colors);
+        } else {
+          product.color.splice(product.color.indexOf(colors),1)
+        }
+        console.log(product);
+      }}
     />
   ));
   // submit handller
