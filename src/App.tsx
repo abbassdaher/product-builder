@@ -46,7 +46,8 @@ function App() {
     const { id, value } = e.target;
     setproduct({ ...product, [id]: value });
     // remove the error msg when verify the condition
-    setMsgErrorValidation(productValidations({ ...product, [id]: value }));
+    // setMsgErrorValidation(productValidations({ ...product, [id]: value }));
+    setMsgErrorValidation({...msgErrorValidation,[id]:''})
   }
   // console.log(product);
   // form of input product
@@ -74,10 +75,11 @@ function App() {
       onClick={() => {
         // product.color.push(colors)
         const colorIsExist = product.color.every((i) => i !== colors);
+        // colorIsExist ? product.color.push(colors): product.color.splice(product.color.indexOf(colors), 1);
         if (colorIsExist) {
           product.color.push(colors);
         } else {
-          product.color.splice(product.color.indexOf(colors),1)
+          product.color.splice(product.color.indexOf(colors), 1);
         }
         console.log(product);
       }}
