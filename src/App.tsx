@@ -34,6 +34,7 @@ function App() {
       imageUrl: "",
     },
   });
+  const [colorTemp, setColorTemp] = useState([]);
   console.log("error:", msgErrorValidation);
   function closeModal() {
     setIsOpen(false);
@@ -47,12 +48,29 @@ function App() {
     setproduct({ ...product, [id]: value });
     // remove the error msg when verify the condition
     // setMsgErrorValidation(productValidations({ ...product, [id]: value }));
-    setMsgErrorValidation({...msgErrorValidation,[id]:''})
+    setMsgErrorValidation({ ...msgErrorValidation, [id]: "" });
   }
   // console.log(product);
   // form of input product
+  // const renderFormProduts = FormInputProduts.map((i) => (
+  //   <div className="mb-2 flex  flex-col ">
+  //     <label htmlFor={i.name} className="text-black">
+  //       {i.lable}:
+  //     </label>
+  //     <input
+  //       type="`${i.type}`"
+  //       className="border-1 text-black border-gray-300 rounded-sm"
+  //       id={i.id}
+  //       name={i.name}
+  //       onChange={onChangeHandller}
+  //     />
+  //     {msgErrorValidation[i.name] && (
+  //       <ValidationErrorMSG msg={msgErrorValidation[i.name]} />
+  //     )}
+  //   </div>
+  // ));
   const renderFormProduts = FormInputProduts.map((i) => (
-    <div className="mb-1 flex  flex-col ">
+    <div className="mb-2 flex  flex-col ">
       <label htmlFor={i.name} className="text-black">
         {i.lable}:
       </label>
@@ -73,17 +91,28 @@ function App() {
     <ColorsProducts
       color={colors}
       onClick={() => {
-        // product.color.push(colors)
-        const colorIsExist = product.color.every((i) => i !== colors);
-        // colorIsExist ? product.color.push(colors): product.color.splice(product.color.indexOf(colors), 1);
-        if (colorIsExist) {
-          product.color.push(colors);
+        const colorIsNotExist = colorTemp.every((i) => i !== colors);
+        console.log("color is exist: ", colorIsNotExist);
+        if (colorIsNotExist) {
+          setColorTemp((prev) => [...prev, colors]);
+          console.log("color temp: ", colorTemp);
         } else {
-          product.color.splice(product.color.indexOf(colors), 1);
+          setColorTemp((prev) => prev.filter((c) => c !== colors));
         }
-        console.log(product);
+
+        // product.color.map((p) => console.log("color:", p));
+        // product.color.map((color) => <span>{color}</span>);
       }}
     />
+  ));
+
+  const renderTagsOfColors = colorTemp.map((pd) => (
+    <span
+      className="text-white me-1 rounded-lg p-1 mb-1"
+      style={{ backgroundColor: pd }}
+    >
+      {pd}
+    </span>
   ));
   // submit handller
   function submitHandler(event: FormEvent<HTMLFormElement>): void {
@@ -129,10 +158,13 @@ function App() {
           title="Add a new product"
         >
           {/* form of modal */}
-          <form onSubmit={submitHandler}>
+          <form onSubmit={submitHandler} className="">
             {renderFormProduts}
-            <div className="flex m-1 ">{renderColorOFProduct}</div>
 
+            <div className="flex mb-1 ">{renderColorOFProduct}</div>
+            <div className="flex text-black mb-3 flex-wrap ">
+              {renderTagsOfColors}
+            </div>
             <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">
               submit
             </Button>
