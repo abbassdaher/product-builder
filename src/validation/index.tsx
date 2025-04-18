@@ -13,7 +13,7 @@ export const productValidations = (product: {
       (product.description.length < 10 || product.description.length > 80)
         ? "Description should be at least 10 characters long"
         : "",
-    imageUrl: product.imageUrl.startsWith("http") ? "" : "Invalid image URL",
+    imageUrl: product.imageUrl.startsWith("data") ? "" : "Invalid image URL",
     price: product.price.match(/^[0-9]+(\.[0-9]{1,2})?$/)
       ? ""
       : "Invalid price format",

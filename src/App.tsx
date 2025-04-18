@@ -15,7 +15,7 @@ import ValidationErrorMSG from "./componnet/ui/ValidationErrorMSG";
 import ColorsProducts from "./componnet/ui/ColorsProducts";
 
 function App() {
-  const renderProduct = productList.map((p) => <ProductCard product={p} />);
+  // ________state________
   const [isOpen, setIsOpen] = useState(true);
   const [msgErrorValidation, setMsgErrorValidation] = useState({
     title: "",
@@ -35,11 +35,13 @@ function App() {
     },
   });
   const [colorTemp, setColorTemp] = useState([]);
-  console.log("error:", msgErrorValidation);
+  const [productsList, setProductsList] = useState<Iproduct[]>(productList);
+
+  // ________Handler________
+
   function closeModal() {
     setIsOpen(false);
   }
-
   function openModal() {
     setIsOpen(true);
   }
@@ -50,25 +52,49 @@ function App() {
     // setMsgErrorValidation(productValidations({ ...product, [id]: value }));
     setMsgErrorValidation({ ...msgErrorValidation, [id]: "" });
   }
-  // console.log(product);
+  // submit handller
+  function submitHandler(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    const { title, description, imageUrl, price } = product;
+    const error = productValidations({
+      title,
+      description,
+      imageUrl,
+      price,
+    });
+    // error massege
+    const hasErrorMSG =
+      Object.values(error).some((item) => item == "") &&
+      Object.values(error).every((item) => item == "");
+    if (!hasErrorMSG) {
+      setMsgErrorValidation(error);
+      return;
+    }
+    
+    setProductsList(prev=>[...prev,product])
+    // setColorTemp([])
+    setproduct({
+      title: "",
+      description: "",
+      imageUrl: "",
+      price: "",
+      color: [],
+      category: {
+        name: "",
+        imageUrl: "",
+      },
+    })
+    console.log("productsList: ", productsList);
+    console.log(product);
+    
+    console.log("send the product to server");
+  }
+
+  // _______Render________
+
+  const renderProductList = productsList.map((p) => <ProductCard product={p} />);
+  console.log("error:", msgErrorValidation);
   // form of input product
-  // const renderFormProduts = FormInputProduts.map((i) => (
-  //   <div className="mb-2 flex  flex-col ">
-  //     <label htmlFor={i.name} className="text-black">
-  //       {i.lable}:
-  //     </label>
-  //     <input
-  //       type="`${i.type}`"
-  //       className="border-1 text-black border-gray-300 rounded-sm"
-  //       id={i.id}
-  //       name={i.name}
-  //       onChange={onChangeHandller}
-  //     />
-  //     {msgErrorValidation[i.name] && (
-  //       <ValidationErrorMSG msg={msgErrorValidation[i.name]} />
-  //     )}
-  //   </div>
-  // ));
   const renderFormProduts = FormInputProduts.map((i) => (
     <div className="mb-2 flex  flex-col ">
       <label htmlFor={i.name} className="text-black">
@@ -99,13 +125,13 @@ function App() {
         } else {
           setColorTemp((prev) => prev.filter((c) => c !== colors));
         }
-
+        setproduct({ ...product, color: colorTemp });
         // product.color.map((p) => console.log("color:", p));
         // product.color.map((color) => <span>{color}</span>);
       }}
     />
   ));
-
+  // render tags Color
   const renderTagsOfColors = colorTemp.map((pd) => (
     <span
       className="text-white me-1 rounded-lg p-1 mb-1"
@@ -114,27 +140,6 @@ function App() {
       {pd}
     </span>
   ));
-  // submit handller
-  function submitHandler(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    const { title, description, imageUrl, price } = product;
-    const error = productValidations({
-      title,
-      description,
-      imageUrl,
-      price,
-    });
-    // error massege
-    const hasErrorMSG =
-      Object.values(error).some((item) => item == "") &&
-      Object.values(error).every((item) => item == "");
-    if (!hasErrorMSG) {
-      setMsgErrorValidation(error);
-      return;
-    }
-
-    console.log("send the product to server");
-  }
 
   return (
     <Fragment>
@@ -149,7 +154,7 @@ function App() {
 
       <main className="container mx-auto flex justify-center">
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-          {renderProduct}
+          {renderProductList}
         </div>
         {/* modal */}
         <Modal
