@@ -13,6 +13,7 @@ import { Iproduct } from "./componnet/interfaces";
 import { productValidations } from "./validation";
 import ValidationErrorMSG from "./componnet/ui/ValidationErrorMSG";
 import ColorsProducts from "./componnet/ui/ColorsProducts";
+import { v4 as uuid } from "uuid";
 
 function App() {
   // ________state________
@@ -24,6 +25,7 @@ function App() {
     price: "",
   });
   const [product, setproduct] = useState<Iproduct>({
+    id: uuid(),
     title: "",
     description: "",
     imageUrl: "",
@@ -70,9 +72,10 @@ function App() {
       setMsgErrorValidation(error);
       return;
     }
+
+    setProductsList((prev) => [...prev, { ...product, id: uuid() }]);
     
-    setProductsList(prev=>[...prev,product])
-    // setColorTemp([])
+    // clear
     setproduct({
       title: "",
       description: "",
@@ -83,16 +86,18 @@ function App() {
         name: "",
         imageUrl: "",
       },
-    })
+    });
     console.log("productsList: ", productsList);
-    console.log(product);
-    
+    setColorTemp([])
+    closeModal()
     console.log("send the product to server");
   }
 
   // _______Render________
 
-  const renderProductList = productsList.map((p) => <ProductCard product={p} />);
+  const renderProductList = productsList.map((p) => (
+    <ProductCard product={p} />
+  ));
   console.log("error:", msgErrorValidation);
   // form of input product
   const renderFormProduts = FormInputProduts.map((i) => (

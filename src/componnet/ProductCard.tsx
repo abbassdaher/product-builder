@@ -8,7 +8,10 @@ interface IProps {
 
 const ProductCard = ({ product }: IProps) => {
   const renderColor = product.color.map((c) => (
-    <span className={`bg-[${c}] rounded-full w-5 h-5 me-1 cursor-pointer`} />
+    <span
+      className="rounded-full w-5 h-5 me-1 cursor-pointer"
+      style={{ backgroundColor: c }}
+    />
   ));
   // console.log(renderColor);
 
@@ -30,12 +33,7 @@ const ProductCard = ({ product }: IProps) => {
         />
       </span>
 
-      <div className="flex m-1 ">
-        {/* <span className={`bg-${c}-800 rounded-full w-5 h-5 me-1 cursor-pointer`}/> */}
-        <span className="bg-blue-800 rounded-full w-5 h-5 me-1 cursor-pointer" />
-        <span className="bg-amber-600 rounded-full w-5 h-5 me-1 cursor-pointer" />
-        <span className="bg-amber-700 rounded-full w-5 h-5 cursor-pointer" />
-      </div>
+      <div className="flex m-1 ">{renderColor}</div>
 
       <div className="flex flex-row justify-between space-x-2 ">
         <Button

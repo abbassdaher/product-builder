@@ -1,6 +1,6 @@
 
 export interface Iproduct {
-  id?: number;
+  id?: string;
   imageUrl: string;
   title: string;
   description: string;
