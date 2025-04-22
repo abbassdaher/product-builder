@@ -14,6 +14,7 @@ import { productValidations } from "./validation";
 import ValidationErrorMSG from "./componnet/ui/ValidationErrorMSG";
 import ColorsProducts from "./componnet/ui/ColorsProducts";
 import { v4 as uuid } from "uuid";
+import { SelectMenu } from "./componnet/ui/SelectMenu";
 
 function App() {
   // ________state________
@@ -36,7 +37,7 @@ function App() {
       imageUrl: "",
     },
   });
-  const [colorTemp, setColorTemp] = useState([]);
+  const [colorTemp, setColorTemp] = useState<string[]>([]);
   const [productsList, setProductsList] = useState<Iproduct[]>(productList);
 
   // ________Handler________
@@ -74,7 +75,7 @@ function App() {
     }
 
     setProductsList((prev) => [...prev, { ...product, id: uuid() }]);
-    
+
     // clear
     setproduct({
       title: "",
@@ -88,8 +89,8 @@ function App() {
       },
     });
     console.log("productsList: ", productsList);
-    setColorTemp([])
-    closeModal()
+    setColorTemp([]);
+    closeModal();
     console.log("send the product to server");
   }
 
@@ -168,13 +169,14 @@ function App() {
           title="Add a new product"
         >
           {/* form of modal */}
-          <form onSubmit={submitHandler} className="">
+          <form onSubmit={submitHandler} className="space-y-2">
             {renderFormProduts}
-
-            <div className="flex mb-1 ">{renderColorOFProduct}</div>
-            <div className="flex text-black mb-3 flex-wrap ">
+<SelectMenu />
+            <div className="flex  ">{renderColorOFProduct}</div>
+            <div className="flex text-black  flex-wrap ">
               {renderTagsOfColors}
             </div>
+            
             <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">
               submit
             </Button>
