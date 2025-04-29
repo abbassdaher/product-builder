@@ -9,7 +9,7 @@ import ProductCard from "./componnet/ProductCard";
 import Modal from "./componnet/ui/Modal";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "./componnet/ui/Button";
-import { Iproduct } from "./componnet/interfaces";
+import { ICategory, Iproduct } from "./componnet/interfaces";
 import { productValidations } from "./validation";
 import ValidationErrorMSG from "./componnet/ui/ValidationErrorMSG";
 import ColorsProducts from "./componnet/ui/ColorsProducts";
@@ -39,7 +39,11 @@ function App() {
   });
   const [colorTemp, setColorTemp] = useState<string[]>([]);
   const [productsList, setProductsList] = useState<Iproduct[]>(productList);
-
+  const [listcategory, setListCategory] = useState<ICategory>({
+    id: "",
+    name: "",
+    imageURL: "",
+  });
   // ________Handler________
 
   function closeModal() {
@@ -74,7 +78,18 @@ function App() {
       return;
     }
 
-    setProductsList((prev) => [...prev, { ...product, id: uuid() }]);
+    setProductsList((prev) => [
+      ...prev,
+      {
+        ...product,
+        id: uuid(),
+        category: {
+          id: listcategory.id,
+          name: listcategory.name,
+          imageUrl: listcategory.imageURL,
+        },
+      },
+    ]);
 
     // clear
     setproduct({
@@ -92,6 +107,10 @@ function App() {
     setColorTemp([]);
     closeModal();
     console.log("send the product to server");
+  }
+  // get category from selector
+  function categoryHandler(category: ICategory) {
+    setListCategory(category);
   }
 
   // _______Render________
@@ -171,12 +190,12 @@ function App() {
           {/* form of modal */}
           <form onSubmit={submitHandler} className="space-y-2">
             {renderFormProduts}
-<SelectMenu />
+            <SelectMenu handllerSelected={categoryHandler} />
             <div className="flex  ">{renderColorOFProduct}</div>
             <div className="flex text-black  flex-wrap ">
               {renderTagsOfColors}
             </div>
-            
+
             <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">
               submit
             </Button>

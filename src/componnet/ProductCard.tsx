@@ -9,6 +9,7 @@ interface IProps {
 const ProductCard = ({ product }: IProps) => {
   const renderColor = product.color.map((c) => (
     <span
+      
       className="rounded-full w-5 h-5 me-1 cursor-pointer"
       style={{ backgroundColor: c }}
     />
