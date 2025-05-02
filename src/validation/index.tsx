@@ -3,6 +3,7 @@ export const productValidations = (product: {
   description: string;
   imageUrl: string;
   price: string;
+  color: string[];
 }) => {
   const error = {
     title:
@@ -10,13 +11,14 @@ export const productValidations = (product: {
         ? "Title should be at least 5 characters long"
         : "",
     description:
-      (product.description.length < 10 || product.description.length > 80)
+      product.description.length < 10 || product.description.length > 80
         ? "Description should be at least 10 characters long"
         : "",
     imageUrl: product.imageUrl.startsWith("data") ? "" : "Invalid image URL",
     price: product.price.match(/^[0-9]+(\.[0-9]{1,2})?$/)
       ? ""
       : "Invalid price format",
+    color: product.color.length === 0 ? "color must be not empty" : "",
   };
   return error;
 };
