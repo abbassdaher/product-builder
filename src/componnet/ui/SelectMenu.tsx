@@ -126,7 +126,6 @@ export const SelectMenu = ({ handllerSelected }) => {
               </span>
             </ListboxOption>
           ))}
-          {console.log(selected)}
         </ListboxOptions>
       </div>
     </Listbox>

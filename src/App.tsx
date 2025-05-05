@@ -45,6 +45,7 @@ function App() {
     name: "",
     imageURL: "",
   });
+  const [editProduct, setEditProduct] = useState({});
   // ________Handler________
 
   function closeModal() {
@@ -56,8 +57,6 @@ function App() {
   function onChangeHandller(e: ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
     setproduct({ ...product, [id]: value });
-    // remove the error msg when verify the condition
-    // setMsgErrorValidation(productValidations({ ...product, [id]: value }));
     setMsgErrorValidation({ ...msgErrorValidation, [id]: "" });
   }
   // submit handller
@@ -118,11 +117,18 @@ function App() {
   function categoryHandler(category: ICategory) {
     setListCategory(category);
   }
+  // edit Handller
+  function editHandller(editProduct){
+    setColorTemp(editProduct.color)
+    setEditProduct(editProduct)
+    console.log(editProduct)
+  }
+
 
   // _______Render________
 
   const renderProductList = productsList.map((p) => (
-    <ProductCard product={p} />
+    <ProductCard product={p} getEditProduct= {editHandller}/>
   ));
   console.log("msgErrorValidation:", msgErrorValidation);
   // form of input product
@@ -145,8 +151,7 @@ function App() {
   ));
   // render tags Color
   const renderTagsOfColors =
-    colorTemp.length > 0
-      ? colorTemp.map((pd) => (
+    colorTemp.length > 0 ? colorTemp.map((pd) => (
           <span
             className="text-white me-1 rounded-lg p-1 mb-1"
             style={{ backgroundColor: pd }}

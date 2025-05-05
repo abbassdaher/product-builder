@@ -1,21 +1,20 @@
 import Image from "./Image";
 import Button from "./ui/Button";
 import { Iproduct } from "./interfaces";
+// import { productList } from "./data";
 
 interface IProps {
   product: Iproduct;
+  editProduct:(valuesOfEditProduct:Iproduct)=>void;
 }
 
-const ProductCard = ({ product }: IProps) => {
+const ProductCard = ({ product,getEditProduct}: IProps) => {
   const renderColor = product.color.map((c) => (
     <span
-      
       className="rounded-full w-5 h-5 me-1 cursor-pointer"
       style={{ backgroundColor: c }}
     />
   ));
-  // console.log(renderColor);
-
   return (
     <div className=" border-1 p-2 my-1  rounded-lg flex flex-col max-w-sm  md:mx-1 ">
       <Image
@@ -39,10 +38,9 @@ const ProductCard = ({ product }: IProps) => {
       <div className="flex flex-row justify-between space-x-2 ">
         <Button
           classname={"bg-amber-500 w-full"}
-          //   onClick={() => {
-          //     console.log("clicked");
-          //   }
-          // }
+          onclick={() => {
+            getEditProduct(product);
+          }}
         >
           edit
         </Button>
