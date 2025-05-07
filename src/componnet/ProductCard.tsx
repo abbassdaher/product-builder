@@ -5,10 +5,12 @@ import { Iproduct } from "./interfaces";
 
 interface IProps {
   product: Iproduct;
-  editProduct:(valuesOfEditProduct:Iproduct)=>void;
+  // getEditProduct: (valuesOfEditProduct: Iproduct) => void;
+  setEditProduct:(product:Iproduct)=>void;
+  openEditModal:()=>void
 }
 
-const ProductCard = ({ product,getEditProduct}: IProps) => {
+const ProductCard = ({ product,setEditProduct,openEditModal }: IProps) => {
   const renderColor = product.color.map((c) => (
     <span
       className="rounded-full w-5 h-5 me-1 cursor-pointer"
@@ -39,7 +41,9 @@ const ProductCard = ({ product,getEditProduct}: IProps) => {
         <Button
           classname={"bg-amber-500 w-full"}
           onclick={() => {
-            getEditProduct(product);
+            // getEditProduct(product);
+            setEditProduct(product)
+            openEditModal()
           }}
         >
           edit

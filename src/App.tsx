@@ -18,7 +18,7 @@ import { SelectMenu } from "./componnet/ui/SelectMenu";
 
 function App() {
   // ________state________
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [msgErrorValidation, setMsgErrorValidation] = useState({
     title: "",
     description: "",
@@ -46,6 +46,8 @@ function App() {
     imageURL: "",
   });
   const [editProduct, setEditProduct] = useState({});
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
+
   // ________Handler________
 
   function closeModal() {
@@ -53,6 +55,12 @@ function App() {
   }
   function openModal() {
     setIsOpen(true);
+  }
+  function closeEditModal() {
+    setIsOpenEdit(false);
+  }
+  function openEditModal() {
+    setIsOpenEdit(true);
   }
   function onChangeHandller(e: ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -113,22 +121,77 @@ function App() {
     closeModal();
     console.log("send the product to server");
   }
+  // submit edit handler
+  function submitEditHandler(event: FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    const { title, description, imageUrl, price, color } = product;
+    const error = productValidations({
+      title,
+      description,
+      imageUrl,
+      price,
+      color,
+    });
+    // error massege
+    const hasErrorMSG =
+      Object.values(error).some((item) => item == "") &&
+      Object.values(error).every((item) => item == "");
+    console.log("hasErrorMSG: ", hasErrorMSG);
+    if (!hasErrorMSG) {
+      setMsgErrorValidation(error);
+      return;
+    }
+
+    setProductsList((prev) => [
+      ...prev,
+      {
+        ...product,
+        id: uuid(),
+        color: colorTemp,
+        category: {
+          id: listcategory.id,
+          name: listcategory.name,
+          imageUrl: listcategory.imageURL,
+        },
+      },
+    ]);
+
+    // clear
+    setproduct({
+      title: "",
+      description: "",
+      imageUrl: "",
+      price: "",
+      color: [],
+      category: {
+        name: "",
+        imageUrl: "",
+      },
+    });
+    console.log("productsList: ", productsList);
+    setColorTemp([]);
+    closeModal();
+    console.log("send the product to server");
+  }
   // get category from selector
   function categoryHandler(category: ICategory) {
     setListCategory(category);
   }
   // edit Handller
-  function editHandller(editProduct){
-    setColorTemp(editProduct.color)
-    setEditProduct(editProduct)
-    console.log(editProduct)
+  function editHandller(valuesOfEditProduct: Iproduct) {
+    setColorTemp(valuesOfEditProduct.color);
+    // setEditProduct(valuesOfEditProduct);
+    openEditModal();
   }
-
-
+  console.log(editProduct);
   // _______Render________
 
   const renderProductList = productsList.map((p) => (
-    <ProductCard product={p} getEditProduct= {editHandller}/>
+    <ProductCard
+      product={p}
+      setEditProduct={setEditProduct}
+      openEditModal={() => openEditModal()}
+    />
   ));
   console.log("msgErrorValidation:", msgErrorValidation);
   // form of input product
@@ -149,9 +212,29 @@ function App() {
       )}
     </div>
   ));
+  // form of input edit product
+  const renderFormEditProduts = FormInputProduts.map((i) => (
+    <div className="mb-2 flex  flex-col ">
+      <label htmlFor={i.name} className="text-black">
+        {i.lable}:
+      </label>
+      <input
+        type="`${i.type}`"
+        className="border-1 text-black border-gray-300 rounded-sm"
+        id={i.id}
+        name={i.name}
+        value={editProduct[i.name]}
+        onChange={onChangeHandller}
+      />
+      {/* {msgErrorValidation[i.name] && (
+        <ValidationErrorMSG msg={msgErrorValidation[i.name]} />
+      )} */}
+    </div>
+  ));
   // render tags Color
   const renderTagsOfColors =
-    colorTemp.length > 0 ? colorTemp.map((pd) => (
+    colorTemp.length > 0
+      ? colorTemp.map((pd) => (
           <span
             className="text-white me-1 rounded-lg p-1 mb-1"
             style={{ backgroundColor: pd }}
@@ -198,7 +281,7 @@ function App() {
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
           {renderProductList}
         </div>
-        {/* modal */}
+        {/*add product modal */}
         <Modal
           isOpen={isOpen}
           closeModal={closeModal}
@@ -207,6 +290,26 @@ function App() {
           {/* form of modal */}
           <form onSubmit={submitHandler} className="space-y-2">
             {renderFormProduts}
+            <SelectMenu handllerSelected={categoryHandler} />
+            <div className="flex  ">{renderColorOFProduct}</div>
+            <div className="flex text-black  flex-wrap ">
+              {renderTagsOfColors}
+            </div>
+
+            <Button classname="bg-emerald-300 w-full hover:bg-emerald-400">
+              submit
+            </Button>
+          </form>
+        </Modal>
+        {/*edit product modal */}
+        <Modal
+          isOpen={isOpenEdit}
+          closeModal={closeEditModal}
+          title="Edit a new product"
+        >
+          {/* form of edit modal */}
+          <form onSubmit={submitEditHandler} className="space-y-2">
+            {renderFormEditProduts}
             <SelectMenu handllerSelected={categoryHandler} />
             <div className="flex  ">{renderColorOFProduct}</div>
             <div className="flex text-black  flex-wrap ">
