@@ -4,10 +4,11 @@ import {
   FormInputProduts,
   productList,
   ColorInputProduct,
+  Category,
 } from "./componnet/data";
 import ProductCard from "./componnet/ProductCard";
 import Modal from "./componnet/ui/Modal";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "./componnet/ui/Button";
 import { ICategory, Iproduct } from "./componnet/interfaces";
 import { productValidations } from "./validation";
@@ -43,10 +44,26 @@ function App() {
   const [listcategory, setListCategory] = useState<ICategory>({
     id: "",
     name: "",
-    imageURL: "",
+    imageUrl: "",
   });
-  const [editProduct, setEditProduct] = useState({});
+  const [editProduct, setEditProduct] = useState<Iproduct>({
+    id: uuid(),
+    title: "",
+    description: "",
+    imageUrl: "",
+    price: "",
+    color: [],
+    category: {
+      name: "",
+      imageUrl: "",
+    },
+  });
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [categoryEdit, setCategoryEdit] = useState<ICategory>({
+    id: "",
+    name: "",
+    imageUrl: "",
+  });
 
   // ________Handler________
 
@@ -65,6 +82,11 @@ function App() {
   function onChangeHandller(e: ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
     setproduct({ ...product, [id]: value });
+    setMsgErrorValidation({ ...msgErrorValidation, [id]: "" });
+  }
+  function onChangeEditHandller(e: ChangeEvent<HTMLInputElement>) {
+    const { id, value } = e.target;
+    setEditProduct({ ...editProduct, [id]: value });
     setMsgErrorValidation({ ...msgErrorValidation, [id]: "" });
   }
   // submit handller
@@ -124,7 +146,7 @@ function App() {
   // submit edit handler
   function submitEditHandler(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
-    const { title, description, imageUrl, price, color } = product;
+    const { title, description, imageUrl, price, color } = editProduct;
     const error = productValidations({
       title,
       description,
@@ -145,13 +167,13 @@ function App() {
     setProductsList((prev) => [
       ...prev,
       {
-        ...product,
+        ...editProduct,
         id: uuid(),
         color: colorTemp,
         category: {
-          id: listcategory.id,
-          name: listcategory.name,
-          imageUrl: listcategory.imageURL,
+          id: categoryEdit.id,
+          name: categoryEdit.name,
+          imageUrl: categoryEdit.imageUrl,
         },
       },
     ]);
@@ -175,11 +197,23 @@ function App() {
   }
   // get category from selector
   function categoryHandler(category: ICategory) {
+    // const categoryEditprops = categoryEdit;
     setListCategory(category);
+    // console.log(category.indexOf(category.id));
   }
+  // function categoryEditHandler(category: ICategory) {
+  //   // setCategoryEdit(category);
+  //   console.log(category);
+  // }
+
   // edit Handller
   function editHandller(valuesOfEditProduct: Iproduct) {
+    // console.log(valuesOfEditProduct.color)
     setColorTemp(valuesOfEditProduct.color);
+      setCategoryEdit(valuesOfEditProduct.category);
+      console.log(categoryEdit)
+
+    // setCategoryEdit(valuesOfEditProduct);
     // setEditProduct(valuesOfEditProduct);
     openEditModal();
   }
@@ -191,6 +225,7 @@ function App() {
       product={p}
       setEditProduct={setEditProduct}
       openEditModal={() => openEditModal()}
+      editHandller={editHandller}
     />
   ));
   console.log("msgErrorValidation:", msgErrorValidation);
@@ -224,11 +259,11 @@ function App() {
         id={i.id}
         name={i.name}
         value={editProduct[i.name]}
-        onChange={onChangeHandller}
+        onChange={onChangeEditHandller}
       />
-      {/* {msgErrorValidation[i.name] && (
+      {msgErrorValidation[i.name] && (
         <ValidationErrorMSG msg={msgErrorValidation[i.name]} />
-      )} */}
+      )}
     </div>
   ));
   // render tags Color
@@ -259,13 +294,9 @@ function App() {
         }
         console.log("color temp: ", colorTemp);
         setproduct({ ...product, color: colorTemp });
-        // product.color.map((p) => console.log("color:", p));
-        // product.color.map((color) => <span>{color}</span>);
       }}
     />
   ));
-
-  console.log("colorTemp:", colorTemp);
   return (
     <Fragment>
       <div className=" m-2 flex justify-between items-center ">
@@ -290,7 +321,7 @@ function App() {
           {/* form of modal */}
           <form onSubmit={submitHandler} className="space-y-2">
             {renderFormProduts}
-            <SelectMenu handllerSelected={categoryHandler} />
+            <SelectMenu handlerSelected={categoryHandler} />
             <div className="flex  ">{renderColorOFProduct}</div>
             <div className="flex text-black  flex-wrap ">
               {renderTagsOfColors}
@@ -310,7 +341,7 @@ function App() {
           {/* form of edit modal */}
           <form onSubmit={submitEditHandler} className="space-y-2">
             {renderFormEditProduts}
-            <SelectMenu handllerSelected={categoryHandler} />
+            <SelectMenu handlerSelected={categoryHandler} />
             <div className="flex  ">{renderColorOFProduct}</div>
             <div className="flex text-black  flex-wrap ">
               {renderTagsOfColors}

@@ -21,5 +21,5 @@ export interface IFormInput {
 export interface ICategory{
   id:string,
   name:string,
-  imageURL:string
+  imageUrl:string
 }

@@ -11,6 +11,7 @@ import {
 import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Category } from "../data";
+import { ICategory } from "../interfaces";
 
 // const people = [
 //   {
@@ -74,11 +75,13 @@ import { Category } from "../data";
 //       "https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 //   },
 // ];
-
-export const SelectMenu = ({ handllerSelected }) => {
+interface ISelectProps {
+  handlerSelected: (selected: ICategory) => void;
+}
+export const SelectMenu = ({ handlerSelected }: ISelectProps) => {
   const [selected, setSelected] = useState(Category[0]);
   // _________handler_________
-  handllerSelected(selected);
+  handlerSelected(selected);
   return (
     <Listbox value={selected} onChange={setSelected}>
       <Label className="block text-sm/6 font-medium text-gray-900">
@@ -89,7 +92,7 @@ export const SelectMenu = ({ handllerSelected }) => {
           <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">
             <img
               alt=""
-              src={selected.imageURL}
+              src={selected.imageUrl}
               className="size-5 shrink-0 rounded-full"
             />
             <span className="block truncate">{selected.name}</span>
@@ -113,7 +116,7 @@ export const SelectMenu = ({ handllerSelected }) => {
               <div className="flex items-center">
                 <img
                   alt=""
-                  src={categ.imageURL}
+                  src={categ.imageUrl}
                   className="size-5 shrink-0 rounded-full"
                 />
                 <span className="ml-3 block truncate font-normal group-data-selected:font-semibold">

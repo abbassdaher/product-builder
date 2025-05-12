@@ -1,16 +1,15 @@
 import Image from "./Image";
 import Button from "./ui/Button";
 import { Iproduct } from "./interfaces";
-// import { productList } from "./data";
 
 interface IProps {
   product: Iproduct;
-  // getEditProduct: (valuesOfEditProduct: Iproduct) => void;
-  setEditProduct:(product:Iproduct)=>void;
-  openEditModal:()=>void
+  setEditProduct: (product: Iproduct) => void;
+  editHandller: (product: Iproduct) => void;
+  openEditModal:(product: Iproduct) => void;
 }
 
-const ProductCard = ({ product,setEditProduct,openEditModal }: IProps) => {
+const ProductCard = ({ product, setEditProduct, editHandller }: IProps) => {
   const renderColor = product.color.map((c) => (
     <span
       className="rounded-full w-5 h-5 me-1 cursor-pointer"
@@ -41,9 +40,8 @@ const ProductCard = ({ product,setEditProduct,openEditModal }: IProps) => {
         <Button
           classname={"bg-amber-500 w-full"}
           onclick={() => {
-            // getEditProduct(product);
-            setEditProduct(product)
-            openEditModal()
+            setEditProduct(product);
+            editHandller(product);
           }}
         >
           edit
