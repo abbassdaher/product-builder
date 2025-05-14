@@ -5,7 +5,7 @@ export interface Iproduct {
   title: string;
   description: string;
   color: string[];
-  price: string;
+  price: number;
   category: {
     id?: string;
     name: string;

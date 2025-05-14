@@ -6,10 +6,18 @@ interface IProps {
   product: Iproduct;
   setEditProduct: (product: Iproduct) => void;
   editHandller: (product: Iproduct) => void;
-  openEditModal:(product: Iproduct) => void;
+  openEditModal: (product: Iproduct) => void;
+  index: number;
+  setEditIndex: (index: number) => void;
 }
 
-const ProductCard = ({ product, setEditProduct, editHandller }: IProps) => {
+const ProductCard = ({
+  product,
+  setEditProduct,
+  editHandller,
+  index,
+  setEditIndex,
+}: IProps) => {
   const renderColor = product.color.map((c) => (
     <span
       className="rounded-full w-5 h-5 me-1 cursor-pointer"
@@ -26,7 +34,12 @@ const ProductCard = ({ product, setEditProduct, editHandller }: IProps) => {
       <h2 className="">{product.title}</h2>
       <p className="truncate">{product.description}</p>
       <span className="flex justify-between items-center ">
-        <div>{product.price}</div>
+        <div>
+          {new Intl.NumberFormat("en-IN", {
+            maximumSignificantDigits: 3,
+          }).format(product.price)}
+          $
+        </div>
         <Image
           imageUrl={product.category.imageUrl}
           alt="product profile"
@@ -42,6 +55,7 @@ const ProductCard = ({ product, setEditProduct, editHandller }: IProps) => {
           onclick={() => {
             setEditProduct(product);
             editHandller(product);
+            setEditIndex(index);
           }}
         >
           edit

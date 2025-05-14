@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Label,
   Listbox,
@@ -76,12 +75,17 @@ import { ICategory } from "../interfaces";
 //   },
 // ];
 interface ISelectProps {
-  handlerSelected: (selected: ICategory) => void;
+  
+    setSelected:(category:ICategory)=>void
+    selected:ICategory
+    
+  
 }
-export const SelectMenu = ({ handlerSelected }: ISelectProps) => {
-  const [selected, setSelected] = useState(Category[0]);
+export const SelectMenu = ({setSelected,selected }: ISelectProps) => {
+  // const [selected, setSelected] = useState(Category[0]);
+  console.log(selected)
   // _________handler_________
-  handlerSelected(selected);
+  // setSelected(selected);
   return (
     <Listbox value={selected} onChange={setSelected}>
       <Label className="block text-sm/6 font-medium text-gray-900">
