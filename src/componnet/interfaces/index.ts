@@ -19,7 +19,7 @@ export interface IFormInput {
   type: string;
 }
 export interface ICategory{
-  id:string,
+  id?:string,
   name:string,
   imageUrl:string
 }

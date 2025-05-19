@@ -4,7 +4,6 @@ import {
   FormInputProduts,
   productList,
   ColorInputProduct,
-  Category,
 } from "./componnet/data";
 import ProductCard from "./componnet/ProductCard";
 import Modal from "./componnet/ui/Modal";
@@ -32,7 +31,7 @@ function App() {
     title: "",
     description: "",
     imageUrl: "",
-    price: "",
+    price: 0,
     color: [],
     category: {
       name: "",
@@ -52,7 +51,7 @@ function App() {
     title: "",
     description: "",
     imageUrl: "",
-    price: "",
+    price: 0,
     color: [],
     category: {
       name: "",
@@ -123,7 +122,7 @@ function App() {
         category: {
           id: listcategory.id,
           name: listcategory.name,
-          imageUrl: listcategory.imageURL,
+          imageUrl: listcategory.imageUrl,
         },
       },
     ]);
@@ -133,7 +132,7 @@ function App() {
       title: "",
       description: "",
       imageUrl: "",
-      price: "",
+      price: 0,
       color: [],
       category: {
         name: "",
@@ -215,15 +214,11 @@ function App() {
     closeModal();
     console.log("send the product to server");
   }
-  // get category from selector
-  function categoryHandler(category: ICategory) {
-    setListCategory(category);
-  }
+
   // edit Handller
   function editHandller(valuesOfEditProduct: Iproduct) {
     setColorTemp(valuesOfEditProduct.color);
     setCategoryEdit(valuesOfEditProduct.category);
-    console.log(categoryEdit);
 
     // setCategoryEdit(valuesOfEditProduct);
     // setEditProduct(valuesOfEditProduct);
@@ -357,7 +352,7 @@ function App() {
           {/* form of edit modal */}
           <form onSubmit={submitEditHandler} className="space-y-2">
             {renderFormEditProduts}
-            <SelectMenu selected={categoryEdit} setSelected={setCategoryEdit} />
+            <SelectMenu selected={categoryEdit} setSelected={prev=>console.log(prev)} />
             <div className="flex  ">{renderColorOFProduct}</div>
             <div className="flex text-black  flex-wrap ">
               {renderTagsOfColors}
