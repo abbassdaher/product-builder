@@ -9,6 +9,7 @@ interface IProps {
   openEditModal: (product: Iproduct) => void;
   index: number;
   setEditIndex: (index: number) => void;
+  deleteProduct: (product:Iproduct)=>void
 }
 
 const ProductCard = ({
@@ -17,6 +18,7 @@ const ProductCard = ({
   editHandller,
   index,
   setEditIndex,
+  deleteProduct
 }: IProps) => {
   const renderColor = product.color.map((c) => (
     <span
@@ -60,7 +62,12 @@ const ProductCard = ({
         >
           edit
         </Button>
-        <Button classname={"bg-red-400 w-full"}>delte</Button>
+        <Button
+          classname={"bg-red-400 w-full"}
+          onclick={() => deleteProduct(product)}
+        >
+          delte
+        </Button>
       </div>
     </div>
   );

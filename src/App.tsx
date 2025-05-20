@@ -214,7 +214,6 @@ function App() {
     closeModal();
     console.log("send the product to server");
   }
-
   // edit Handller
   function editHandller(valuesOfEditProduct: Iproduct) {
     setColorTemp(valuesOfEditProduct.color);
@@ -224,8 +223,10 @@ function App() {
     // setEditProduct(valuesOfEditProduct);
     openEditModal();
   }
-  console.log(editIndex);
-  console.log();
+  function deleteHandler(deletedProduct :Iproduct){
+    const newProductList = productList.filter((prod)=>prod.id != deletedProduct.id)
+    setProductsList(newProductList)
+  }
   // _______Render________
 
   const renderProductList = productsList.map((p, index) => (
@@ -236,6 +237,7 @@ function App() {
       editHandller={editHandller}
       index={index}
       setEditIndex={setEditIndex}
+      deleteProduct = {deleteHandler}
     />
   ));
   console.log("msgErrorValidation:", msgErrorValidation);
@@ -352,7 +354,10 @@ function App() {
           {/* form of edit modal */}
           <form onSubmit={submitEditHandler} className="space-y-2">
             {renderFormEditProduts}
-            <SelectMenu selected={categoryEdit} setSelected={prev=>console.log(prev)} />
+            <SelectMenu
+              selected={categoryEdit}
+              setSelected={(prev) => console.log(prev)}
+            />
             <div className="flex  ">{renderColorOFProduct}</div>
             <div className="flex text-black  flex-wrap ">
               {renderTagsOfColors}
