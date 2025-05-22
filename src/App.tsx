@@ -67,7 +67,18 @@ function App() {
   const [editIndex, setEditIndex] = useState(0);
 
   const [isOpenDeletedModal, setIsOpenDeletedModal] = useState(false);
-  const [deleteProduct, setDeleteProduct] = useState({});
+  const [deleteProduct, setDeleteProduct] = useState<Iproduct>({
+    id: uuid(),
+    title: "",
+    description: "",
+    imageUrl: "",
+    price: 0,
+    color: [],
+    category: {
+      name: "",
+      imageUrl: "",
+    },
+  });
 
   // ________Handler________
 
