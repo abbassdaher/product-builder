@@ -54,6 +54,7 @@ export default function Modal({
                       {title}
                       <CircleX onClick={closeModal} className="text-gray-400 cursor-pointer hover:text-gray-600"/>
                     </Dialog.Title>
+                    
                   )}
                   {description && (
                     <div className="mt-2">

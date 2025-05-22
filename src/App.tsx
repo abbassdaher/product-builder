@@ -66,6 +66,9 @@ function App() {
   });
   const [editIndex, setEditIndex] = useState(0);
 
+  const [isOpenDeletedModal, setIsOpenDeletedModal] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState({});
+
   // ________Handler________
 
   function closeModal() {
@@ -79,6 +82,12 @@ function App() {
   }
   function openEditModal() {
     setIsOpenEdit(true);
+  }
+  function openDeleteModal() {
+    setIsOpenDeletedModal(true);
+  }
+  function closeDeleteModal() {
+    setIsOpenDeletedModal(false);
   }
   function onChangeHandller(e: ChangeEvent<HTMLInputElement>) {
     const { id, value } = e.target;
@@ -223,10 +232,13 @@ function App() {
     // setEditProduct(valuesOfEditProduct);
     openEditModal();
   }
-  function deleteHandler(deletedProduct :Iproduct){
-    const newProductList = productList.filter((prod)=>prod.id != deletedProduct.id)
-    setProductsList(newProductList)
+  function deleteHandler(selectedProduct: Iproduct) {
+    openDeleteModal();
+    setDeleteProduct(selectedProduct);
+
+    //
   }
+  // console.log(isDelete);
   // _______Render________
 
   const renderProductList = productsList.map((p, index) => (
@@ -237,7 +249,7 @@ function App() {
       editHandller={editHandller}
       index={index}
       setEditIndex={setEditIndex}
-      deleteProduct = {deleteHandler}
+      deleteProduct={deleteHandler}
     />
   ));
   console.log("msgErrorValidation:", msgErrorValidation);
@@ -367,6 +379,40 @@ function App() {
               submit
             </Button>
           </form>
+        </Modal>
+
+        {/* delete modal */}
+        <Modal
+          isOpen={isOpenDeletedModal}
+          title="Are you sure you want to remove this Product from your Store?"
+          description="Deleting thiS product will remove it permanently from your
+                      inventory. Any associated data sales history, and other
+                      related Information will Also be deleted. Please make sure
+                      this is the Intended action."
+          closeModal={closeDeleteModal}
+        >
+          <div className="mt-2 flex space-x-1">
+            <button
+              type="button"
+              className="w-50  rounded-md border border-transparent bg-red-200 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+              onClick={() => {
+                const newProductList = productList.filter(
+                  (prod) => prod.id != deleteProduct.id
+                );
+                setProductsList(newProductList);
+                closeDeleteModal();
+              }}
+            >
+              Yes,remove
+            </button>
+            <button
+              type="button"
+              className="w-50  rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 "
+              onClick={() => setIsOpenDeletedModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </Modal>
       </main>
     </Fragment>
